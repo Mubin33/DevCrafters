@@ -51,14 +51,14 @@ export function AnimatedTitle({ text, className = "", delay = 0, gradientWords =
       {words.map((word, index) => {
         const isGradient = gradientWords.includes(word.replace(/[^a-zA-Z0-9]/g, ''));
         return (
-          <motion.span 
+          <motion.div 
             variants={child} 
             style={{ marginRight: "0.25em" }} 
             key={index}
             className={isGradient ? "text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500" : ""}
           >
             {word === "<br/>" ? <div className="w-full h-0" /> : word}
-          </motion.span>
+          </motion.div>
         );
       })}
     </motion.div>
