@@ -1,65 +1,219 @@
-import Image from "next/image";
+"use client";
+
+import Link from "next/link";
+import { ArrowRight, Code2 } from "lucide-react";
+import { FadeIn } from "@/components/ui/FadeIn";
+import { Button } from "@/components/ui/Button";
+import { services, technologies, reasons, projects } from "@/lib/data";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="flex flex-col min-h-screen">
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-background to-background"></div>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <FadeIn direction="up" className="max-w-4xl mx-auto text-center">
+            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8">
+              Crafting Digital <br className="hidden md:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">
+                Experiences that Matter
+              </span>
+            </h1>
+            <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
+              We are an independent team of developers and designers building modern, scalable, and beautiful software solutions for forward-thinking brands.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/portfolio">
+                <Button size="lg" className="w-full sm:w-auto">
+                  View Our Work
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+              <Link href="/contact">
+                <Button variant="outline" size="lg" className="w-full sm:w-auto">
+                  Start a Project
+                </Button>
+              </Link>
+            </div>
+          </FadeIn>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Services Overview */}
+      <section className="py-20 bg-secondary/30">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <FadeIn>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Expertise</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Comprehensive software development services tailored to your specific needs.
+              </p>
+            </div>
+          </FadeIn>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.slice(0, 6).map((service, index) => {
+              const Icon = service.icon;
+              return (
+                <FadeIn key={service.title} delay={index * 0.1} direction="up">
+                  <div className="p-8 rounded-2xl bg-background border border-border shadow-sm hover:shadow-md transition-all group">
+                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                      <Icon className="h-6 w-6 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {service.description}
+                    </p>
+                  </div>
+                </FadeIn>
+              );
+            })}
+          </div>
         </div>
-      </main>
+      </section>
+
+      {/* Why Choose Us */}
+      <section className="py-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row gap-16 items-center">
+            <div className="lg:w-1/2">
+              <FadeIn direction="left">
+                <h2 className="text-3xl md:text-4xl font-bold mb-6">Why Partner With Us?</h2>
+                <p className="text-lg text-muted-foreground mb-8">
+                  As a boutique development agency, we offer the technical expertise of a large corporation with the agility, personal touch, and dedication of an in-house team.
+                </p>
+                <div className="space-y-6">
+                  {reasons.map((reason, index) => {
+                    const Icon = reason.icon;
+                    return (
+                      <div key={index} className="flex gap-4">
+                        <div className="mt-1 bg-primary/10 p-2 rounded-lg h-fit">
+                          <Icon className="h-5 w-5 text-primary" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-lg">{reason.title}</h4>
+                          <p className="text-muted-foreground">{reason.description}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </FadeIn>
+            </div>
+            <div className="lg:w-1/2 relative">
+              <FadeIn direction="right">
+                <div className="aspect-square md:aspect-[4/3] rounded-3xl overflow-hidden relative">
+                  <img 
+                    src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1200"
+                    alt="Team Brainstorming"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </FadeIn>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Tech Stack Marquee (Simplified using grid for now) */}
+      <section className="py-20 bg-primary text-primary-foreground overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <FadeIn>
+            <h2 className="text-2xl font-semibold mb-12 opacity-90">Powered by Modern Technologies</h2>
+            <div className="flex flex-wrap justify-center gap-4 md:gap-8">
+              {technologies.map((tech) => (
+                <div 
+                  key={tech.name} 
+                  className="px-6 py-3 rounded-full bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20 font-medium text-sm md:text-base"
+                >
+                  {tech.name}
+                </div>
+              ))}
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* Featured Projects */}
+      <section className="py-20 bg-secondary/30">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <FadeIn>
+            <div className="flex justify-between items-end mb-12">
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Work</h2>
+                <p className="text-muted-foreground max-w-xl">
+                  A selection of our recent projects showcasing our technical capabilities and design approach.
+                </p>
+              </div>
+              <Link href="/portfolio" className="hidden md:inline-flex items-center text-primary font-medium hover:underline">
+                View All Projects <ArrowRight className="ml-1 h-4 w-4" />
+              </Link>
+            </div>
+          </FadeIn>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {projects.slice(0, 2).map((project, index) => (
+              <FadeIn key={project.id} delay={index * 0.1}>
+                <div className="group rounded-2xl overflow-hidden bg-background border border-border">
+                  <div className="aspect-[16/9] bg-muted relative overflow-hidden">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-8">
+                    <div className="text-sm font-medium text-primary mb-2">{project.category}</div>
+                    <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
+                    <p className="text-muted-foreground mb-6">
+                      {project.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {project.technologies.slice(0, 3).map((tech) => (
+                        <span key={tech} className="text-xs px-3 py-1 bg-secondary rounded-full font-medium">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+          
+          <div className="mt-8 text-center md:hidden">
+            <Link href="/portfolio">
+              <Button variant="outline" className="w-full">
+                View All Projects
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <FadeIn className="bg-gradient-to-br from-primary to-blue-600 rounded-3xl p-10 md:p-16 text-center text-white relative overflow-hidden">
+            <div className="relative z-10">
+              <h2 className="text-3xl md:text-5xl font-bold mb-6">Ready to build something amazing?</h2>
+              <p className="text-lg text-primary-foreground/80 mb-10 max-w-2xl mx-auto">
+                Let&apos;s discuss your idea and see how our team can help bring it to life with modern technology and elegant design.
+              </p>
+              <Link href="/contact">
+                <Button size="lg" className="bg-white text-black hover:bg-white/90">
+                  Start the Conversation
+                </Button>
+              </Link>
+            </div>
+            
+            {/* Decorative background elements */}
+            <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 translate-y-1/3 -translate-x-1/3 w-96 h-96 bg-black/10 rounded-full blur-3xl"></div>
+          </FadeIn>
+        </div>
+      </section>
     </div>
   );
 }
