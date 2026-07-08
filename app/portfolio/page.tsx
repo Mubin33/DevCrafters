@@ -37,16 +37,16 @@ export default function PortfolioPage() {
                       
                       {/* Overlay */}
                       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 backdrop-blur-sm">
-                        <Button variant="secondary" className="gap-2" asChild>
-                          <a href={project.liveUrl} target="_blank" rel="noreferrer">
+                        <a href={project.liveUrl} target="_blank" rel="noreferrer">
+                          <Button variant="secondary" className="gap-2">
                             <ExternalLink className="w-4 h-4" /> Live Demo
-                          </a>
-                        </Button>
-                        <Button variant="outline" className="text-white border-white hover:bg-white hover:text-black gap-2" asChild>
-                          <a href={project.githubUrl} target="_blank" rel="noreferrer">
+                          </Button>
+                        </a>
+                        <a href={project.githubUrl} target="_blank" rel="noreferrer">
+                          <Button variant="outline" className="text-white border-white hover:bg-white hover:text-black gap-2">
                             <Github className="w-4 h-4" /> Source Code
-                          </a>
-                        </Button>
+                          </Button>
+                        </a>
                       </div>
                     </div>
                   </div>
