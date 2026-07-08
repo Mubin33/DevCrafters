@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 interface AnimatedTitleProps {
   text: string;
@@ -14,7 +14,7 @@ export function AnimatedTitle({ text, className = "", delay = 0, gradientWords =
   // For a title, splitting by words is safer.
   const words = text.split(" ");
 
-  const container = {
+  const container: Variants = {
     hidden: { opacity: 0 },
     visible: (i = 1) => ({
       opacity: 1,
@@ -22,7 +22,7 @@ export function AnimatedTitle({ text, className = "", delay = 0, gradientWords =
     }),
   };
 
-  const child = {
+  const child: Variants = {
     visible: {
       opacity: 1,
       y: 0,
