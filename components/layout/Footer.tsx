@@ -1,12 +1,24 @@
+"use client";
+
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { Code2, Mail, MapPin, Phone } from "lucide-react";
 import { Github, Linkedin, Twitter } from "@/components/ui/Icons";
 import { siteInfo } from "@/lib/data";
 
 export function Footer() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end end"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], ["50%", "0%"]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
   return (
-    <footer className="bg-background border-t border-border pt-16 pb-8">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <footer ref={ref} className="bg-background border-t border-border pt-16 pb-8 overflow-hidden">
+      <motion.div style={{ y, opacity }} className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div className="space-y-4">
@@ -98,7 +110,7 @@ export function Footer() {
             <Link href="#" className="hover:text-primary transition-colors">Terms of Service</Link>
           </div>
         </div>
-      </div>
+      </motion.div>
     </footer>
   );
 }

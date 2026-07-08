@@ -1,43 +1,60 @@
 "use client";
 
+import { useRef } from "react";
 import Link from "next/link";
-import { ArrowRight, Code2 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { Button } from "@/components/ui/Button";
+import { AnimatedTitle } from "@/components/ui/AnimatedTitle";
+import { AnimatedBackground } from "@/components/ui/AnimatedBackground";
+import { TestimonialMarquee } from "@/components/ui/TestimonialMarquee";
 import { services, technologies, reasons, projects } from "@/lib/data";
+import { motion, useScroll, useTransform } from "framer-motion"; 
 
 export default function Home() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+
+  const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const opacityText = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div ref={containerRef} className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-background to-background"></div>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden min-h-[90vh] flex items-center justify-center">
+        <AnimatedBackground />
+        
+        <motion.div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10" style={{ opacity: opacityText }}>
           <FadeIn direction="up" className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8">
-              Crafting Digital <br className="hidden md:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">
-                Experiences that Matter
-              </span>
-            </h1>
+            <AnimatedTitle 
+              text="Crafting Digital <br/> Experiences that Matter"
+              className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8"
+              gradientWords={["Experiences", "that", "Matter"]}
+            />
             <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
               We are an independent team of developers and designers building modern, scalable, and beautiful software solutions for forward-thinking brands.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/portfolio">
-                <Button size="lg" className="w-full sm:w-auto">
-                  View Our Work
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                <Button size="lg" className="w-full sm:w-auto relative overflow-hidden group">
+                  <span className="relative z-10 flex items-center">
+                    View Our Work
+                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
                 </Button>
               </Link>
               <Link href="/contact">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                  Start a Project
+                <Button variant="outline" size="lg" className="w-full sm:w-auto group">
+                  <span className="group-hover:text-primary transition-colors">Start a Project</span>
                 </Button>
               </Link>
             </div>
           </FadeIn>
-        </div>
+        </motion.div>
       </section>
 
       {/* Services Overview */}
@@ -57,14 +74,18 @@ export default function Home() {
               const Icon = service.icon;
               return (
                 <FadeIn key={service.title} delay={index * 0.1} direction="up">
-                  <div className="p-8 rounded-2xl bg-background border border-border shadow-sm hover:shadow-md transition-all group">
-                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                      <Icon className="h-6 w-6 text-primary" />
+                  <div className="relative p-8 rounded-2xl bg-background border border-border shadow-sm hover:shadow-xl hover:border-primary/50 transition-all duration-300 group hover:-translate-y-1 overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                    
+                    <div className="relative z-10">
+                      <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+                        <Icon className="h-6 w-6 text-primary group-hover:text-primary-foreground transition-colors" />
+                      </div>
+                      <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">{service.title}</h3>
+                      <p className="text-muted-foreground leading-relaxed">
+                        {service.description}
+                      </p>
                     </div>
-                    <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      {service.description}
-                    </p>
                   </div>
                 </FadeIn>
               );
@@ -116,22 +137,49 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Tech Stack Marquee (Simplified using grid for now) */}
-      <section className="py-20 bg-primary text-primary-foreground overflow-hidden">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <FadeIn>
-            <h2 className="text-2xl font-semibold mb-12 opacity-90">Powered by Modern Technologies</h2>
-            <div className="flex flex-wrap justify-center gap-4 md:gap-8">
-              {technologies.map((tech) => (
-                <div 
-                  key={tech.name} 
-                  className="px-6 py-3 rounded-full bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20 font-medium text-sm md:text-base"
-                >
-                  {tech.name}
-                </div>
-              ))}
+      {/* Client Satisfaction Section */}
+      <section className="py-20 bg-background overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+          <FadeIn direction="up">
+            <div className="text-center">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Client Satisfaction</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Don't just take our word for it. Here's what our partners say about working with us.
+              </p>
             </div>
           </FadeIn>
+        </div>
+        <TestimonialMarquee />
+      </section>
+
+      {/* Tech Stack Marquee */}
+      <section className="py-10 border-y border-border bg-background overflow-hidden">
+        <div className="text-center mb-12">
+          <FadeIn>
+            <h2 className="text-2xl font-semibold opacity-90">Powered by Modern Technologies</h2>
+          </FadeIn>
+        </div>
+        
+        <div className="relative flex overflow-x-hidden group">
+          <motion.div 
+            className="flex space-x-4 md:space-x-8 px-4 whitespace-nowrap"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{
+              repeat: Infinity,
+              ease: "linear",
+              duration: 20,
+            }}
+          >
+            {/* Double the array for seamless looping */}
+            {[...technologies, ...technologies].map((tech, index) => (
+              <div 
+                key={`${tech.name}-${index}`} 
+                className="inline-flex px-6 py-3 rounded-full bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20 font-medium text-sm md:text-base hover:bg-primary-foreground/20 transition-colors"
+              >
+                {tech.name}
+              </div>
+            ))}
+          </motion.div>
         </div>
       </section>
 

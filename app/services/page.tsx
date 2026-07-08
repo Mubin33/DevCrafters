@@ -3,6 +3,7 @@
 import { FadeIn } from "@/components/ui/FadeIn";
 import { services } from "@/lib/data";
 import { Button } from "@/components/ui/Button";
+import { AnimatedTitle } from "@/components/ui/AnimatedTitle";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -12,7 +13,7 @@ export default function ServicesPage() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center mb-24">
           <FadeIn>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Our Services</h1>
+            <AnimatedTitle text="Our Services" className="text-4xl md:text-5xl font-bold mb-6" />
             <p className="text-xl text-muted-foreground leading-relaxed">
               We provide end-to-end software development services to help you build, launch, and scale your digital products.
             </p>
@@ -26,29 +27,29 @@ export default function ServicesPage() {
             return (
               <div 
                 key={service.title}
-                className={`flex flex-col gap-12 lg:gap-20 items-center ${
+                className={`flex flex-col gap-12 lg:gap-20 items-center group ${
                   isEven ? "lg:flex-row" : "lg:flex-row-reverse"
                 }`}
               >
                 <div className="lg:w-1/2 w-full">
                   <FadeIn direction={isEven ? "left" : "right"}>
-                    <div className="aspect-[4/3] bg-secondary/50 rounded-3xl overflow-hidden flex items-center justify-center relative border border-border group">
+                    <div className="aspect-[4/3] bg-secondary/50 rounded-3xl overflow-hidden flex items-center justify-center relative border border-border shadow-sm group-hover:shadow-xl transition-all duration-500">
                        <img 
                          src={service.image} 
                          alt={service.title}
-                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                        />
-                       <div className="absolute inset-0 bg-gradient-to-br from-background/30 to-primary/10"></div>
+                       <div className="absolute inset-0 bg-gradient-to-br from-background/50 to-primary/20 opacity-80 group-hover:opacity-40 transition-opacity duration-500"></div>
                     </div>
                   </FadeIn>
                 </div>
                 
                 <div className="lg:w-1/2 w-full">
                   <FadeIn direction={isEven ? "right" : "left"}>
-                    <div className="inline-flex items-center justify-center p-3 rounded-xl bg-primary/10 mb-6">
-                      <Icon className="w-6 h-6 text-primary" />
+                    <div className="inline-flex items-center justify-center p-4 rounded-2xl bg-primary/10 mb-6 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-sm group-hover:shadow-primary/30">
+                      <Icon className="w-8 h-8 text-primary group-hover:text-primary-foreground transition-colors" />
                     </div>
-                    <h2 className="text-3xl font-bold mb-4">{service.title}</h2>
+                    <h2 className="text-3xl font-bold mb-4 group-hover:text-primary transition-colors">{service.title}</h2>
                     <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
                       {service.description} We use modern frameworks, robust architectures, and best practices to ensure your project is built to last. Our team works closely with you to understand your specific needs and deliver a solution that exceeds your expectations.
                     </p>

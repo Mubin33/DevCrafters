@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { Menu, X, Moon, Sun, Code2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Magnetic } from "@/components/ui/Magnetic";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -54,17 +55,18 @@ export function Navbar() {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-1">
               {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    pathname === link.href
-                      ? "bg-primary/10 text-primary"
-                      : "text-foreground/80 hover:text-foreground hover:bg-accent"
-                  }`}
-                >
-                  {link.name}
-                </Link>
+                <Magnetic key={link.name} strength={10}>
+                  <Link
+                    href={link.href}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                      pathname === link.href
+                        ? "bg-primary/10 text-primary"
+                        : "text-foreground/80 hover:text-foreground hover:bg-accent"
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                </Magnetic>
               ))}
             </div>
           </div>

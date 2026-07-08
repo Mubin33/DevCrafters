@@ -4,6 +4,9 @@ import { FadeIn } from "@/components/ui/FadeIn";
 import { team } from "@/lib/data";
 import { Github, Linkedin, Twitter } from "@/components/ui/Icons";
 import { Button } from "@/components/ui/Button";
+import { TiltCard } from "@/components/ui/TiltCard";
+import { TextReveal } from "@/components/ui/TextReveal";
+import { AnimatedCounter } from "@/components/ui/AnimatedCounter";
 
 export default function AboutPage() {
   return (
@@ -33,10 +36,10 @@ export default function AboutPage() {
           </FadeIn>
           <FadeIn direction="left">
             <h2 className="text-3xl font-bold mb-6">Our Mission</h2>
+            <div className="mb-8">
+              <TextReveal text="Founded in 2023, our mission is to empower businesses with cutting-edge technology and intuitive design. We believe that great software shouldn't just work—it should inspire." />
+            </div>
             <div className="space-y-6 text-muted-foreground leading-relaxed">
-              <p>
-                Founded in 2023, our mission is to empower businesses with cutting-edge technology and intuitive design. We believe that great software shouldn&apos;t just work—it should inspire.
-              </p>
               <p>
                 Unlike large agencies where your project gets lost in the shuffle, we intentionally stay small. This allows us to partner deeply with our clients, moving fast and maintaining an uncompromising standard of quality.
               </p>
@@ -44,11 +47,15 @@ export default function AboutPage() {
             
             <div className="grid grid-cols-2 gap-8 mt-10 border-t border-border pt-8">
               <div>
-                <div className="text-4xl font-bold text-primary mb-2">50+</div>
+                <div className="text-4xl font-bold text-primary mb-2">
+                  <AnimatedCounter value={50} suffix="+" />
+                </div>
                 <div className="text-sm font-medium text-foreground">Projects Delivered</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-primary mb-2">100%</div>
+                <div className="text-4xl font-bold text-primary mb-2">
+                  <AnimatedCounter value={100} suffix="%" />
+                </div>
                 <div className="text-sm font-medium text-foreground">Client Satisfaction</div>
               </div>
             </div>
@@ -67,32 +74,56 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {team.map((member, index) => (
               <FadeIn key={member.name} delay={index * 0.1} direction="up">
-                <div className="group rounded-2xl overflow-hidden bg-background border border-border">
-                  <div className="aspect-square bg-muted relative overflow-hidden flex items-center justify-center">
-                    <img 
-                      src={member.image} 
-                      alt={member.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold mb-1">{member.name}</h3>
-                    <p className="text-primary font-medium text-sm mb-4">{member.role}</p>
-                    <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
-                      {member.bio}
-                    </p>
-                    {/* <div className="flex gap-4">
-                      <a href={member.socials.github} className="text-muted-foreground hover:text-foreground transition-colors">
-                        <Github className="w-4 h-4" />
-                      </a>
-                      <a href={member.socials.linkedin} className="text-muted-foreground hover:text-foreground transition-colors">
-                        <Linkedin className="w-4 h-4" />
-                      </a>
-                      <a href={member.socials.twitter} className="text-muted-foreground hover:text-foreground transition-colors">
-                        <Twitter className="w-4 h-4" />
-                      </a>
-                    </div> */}
-                  </div>
+                <div className="perspective-1000 h-full">
+                  <TiltCard className="group rounded-2xl overflow-hidden bg-background border border-border h-full flex flex-col">
+                    <div className="aspect-square bg-muted relative overflow-hidden flex items-center justify-center">
+                      <img 
+                        src={member.image} 
+                        alt={member.name}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      
+                      {/* Desktop Interactive Slide-up Overlay */}
+                      <div className="hidden lg:flex absolute inset-0 bg-black/60 backdrop-blur-sm flex-col items-center justify-center gap-4 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out p-6 text-center">
+                        <p className="text-white/90 text-sm font-medium mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                          {member.bio}
+                        </p>
+                        <div className="flex gap-4">
+                          <a href={member.socials.github} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary hover:text-white transition-all transform hover:scale-110">
+                            <Github className="w-5 h-5" />
+                          </a>
+                          <a href={member.socials.linkedin} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary hover:text-white transition-all transform hover:scale-110">
+                            <Linkedin className="w-5 h-5" />
+                          </a>
+                          <a href={member.socials.twitter} target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary hover:text-white transition-all transform hover:scale-110">
+                            <Twitter className="w-5 h-5" />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-6 relative bg-background z-10 flex-1 flex flex-col">
+                      <h3 className="text-xl font-bold mb-1 group-hover:text-primary transition-colors">{member.name}</h3>
+                      <p className="text-primary font-medium text-sm mb-4">{member.role}</p>
+                      
+                      {/* Mobile Only Bio & Socials */}
+                      <div className="block lg:hidden mt-auto">
+                        <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
+                          {member.bio}
+                        </p>
+                        <div className="flex gap-4">
+                          <a href={member.socials.github} target="_blank" rel="noreferrer" className="p-2 rounded-full bg-secondary text-foreground hover:bg-primary hover:text-primary-foreground transition-all">
+                            <Github className="w-4 h-4" />
+                          </a>
+                          <a href={member.socials.linkedin} target="_blank" rel="noreferrer" className="p-2 rounded-full bg-secondary text-foreground hover:bg-primary hover:text-primary-foreground transition-all">
+                            <Linkedin className="w-4 h-4" />
+                          </a>
+                          <a href={member.socials.twitter} target="_blank" rel="noreferrer" className="p-2 rounded-full bg-secondary text-foreground hover:bg-primary hover:text-primary-foreground transition-all">
+                            <Twitter className="w-4 h-4" />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </TiltCard>
                 </div>
               </FadeIn>
             ))}

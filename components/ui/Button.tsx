@@ -8,9 +8,11 @@ interface ButtonProps extends HTMLMotionProps<"button"> {
   size?: "sm" | "md" | "lg";
 }
 
+import { Magnetic } from "@/components/ui/Magnetic";
+
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className = "", variant = "primary", size = "md", children, ...props }, ref) => {
-    const baseStyles = "inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none";
+    const baseStyles = "inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none relative overflow-hidden group";
     
     const variants = {
       primary: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm",
@@ -26,15 +28,16 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     return (
-      <motion.button
-        ref={ref}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
-        {...props}
-      >
-        {children}
-      </motion.button>
+      <Magnetic strength={20}>
+        <motion.button
+          ref={ref}
+          whileTap={{ scale: 0.95 }}
+          className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+          {...props}
+        >
+          <span className="relative z-10 flex items-center justify-center">{children as React.ReactNode}</span>
+        </motion.button>
+      </Magnetic>
     );
   }
 );
